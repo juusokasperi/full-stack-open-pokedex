@@ -39,7 +39,7 @@ module.exports = {
     ],
     'semi': [
       'error',
-      'never'
+      'always'
     ],
     'eqeqeq': 'error',
     'no-trailing-spaces': 'error',
@@ -52,4 +52,4 @@ module.exports = {
     'no-console': 'error',
     'react/prop-types': 0
   }
-}
+};
