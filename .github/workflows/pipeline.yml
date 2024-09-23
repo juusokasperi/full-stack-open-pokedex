@@ -56,6 +56,7 @@ jobs:
           echo "${{ toJson(github.event.commits) }}"
           echo "FULL GITHUB CONTEXT:"
           echo "${{ toJson(github) }}"
+      - name: deploy
         if: ${{ github.event.name == 'PUSH' && !env.SKIP }}
         run: |
           echo "Deploying.."
