@@ -43,7 +43,8 @@ jobs:
       - name: debug
         run: |
           echo "PUSH: ${{ github.event_name }}"
-          echo "SKIP: ${{ env.SKIP }}"
+          echo "PUSH BOOLEAN: ${{ env.PUSH }}"
+          echo "SKIP BOOLEAN: ${{ env.SKIP }}"
           echo "MSG: ${{ join(github.event.head_commits.*.message, ' ') }}"
       - name: deploy
         if: ${{ env.PUSH && !env.SKIP }}
