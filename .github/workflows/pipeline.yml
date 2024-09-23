@@ -1,9 +1,7 @@
 name: Deployment pipeline
 
 env:
-  PUSH: ${{ github.event_name == 'push' }}
   SKIP: ${{ contains(join(github.event.commits.*.message, ' '), '#skip') }}
-  NO_PLAYWRIGHT: ${{ contains(join(github.event.commits.*.message, ' '), '#no-e2e') }}
 
 on:
   push:
@@ -30,7 +28,6 @@ jobs:
       - name: jest
         run: npm test
       - name: playwright
-        if: ${{ !env.NO_PLAYWRIGHT }}
         run: |
           npx playwright install --with-deps
           npm run test:e2e
@@ -43,29 +40,26 @@ jobs:
       - name: debug
         run: |
           echo "EVENT_NAME: ${{ github.event_name }}"
-          echo "PUSH BOOLEAN: ${{ env.PUSH }}"
-          echo "PUSH BOOLEAN another way: ${{ github.event_name == 'PUSH' }}"
+          echo "PUSH BOOLEAN: ${{ github.event_name == 'PUSH' }}"
           echo "SKIP BOOLEAN: ${{ env.SKIP }}"
           echo "GITHUB_REF: ${{ github.ref }}"
           echo "GITHUB_HEAD_REF: ${{ github.head_ref }}"
           echo "GITHUB_BASE_REF: ${{ github.base_ref }}"
           echo "GITHUB_REF_NAME: ${{ github.ref_name }}"
           echo "GITHUB_EVENT_NAME: ${{ github.event_name }}"
-          echo "COMMIT_MESSAGES:"
-          echo "${{ toJson(github.event.commits.*.message) }}"
+          echo "COMMIT_MESSAGES: ${{ join(github.event.commits.*.message, ', ') }}"
       - name: deploy
         if: ${{ github.event_name == 'PUSH' && !env.SKIP }}
         run: |
           echo "Deploying.."
           curl "https://api.render.com/deploy/srv-${{secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}"
   tag_release:
-    if: ${{ github.event.name == 'PUSH' && !github.env.SKIP }}
+    if: ${{ github.event_name == 'PUSH' && !github.env.SKIP }}
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.merge_commit_sha }}
           fetch-depth: '0'
       - name: bump version and push tag
         uses: anothrNick/github-tag-action@1.70.0
