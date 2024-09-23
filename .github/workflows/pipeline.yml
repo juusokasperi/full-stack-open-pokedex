@@ -40,7 +40,8 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-      - name: debug
+      - name: debug push event
+        if: ${{ github.event_name == 'push' }}
         run: |
           echo "EVENT_NAME: ${{ github.event_name }}"
           echo "PUSH BOOLEAN: ${{ env.PUSH }}"
@@ -51,9 +52,19 @@ jobs:
           echo "GITHUB_BASE_REF: ${{ github.base_ref }}"
           echo "GITHUB_REF_NAME: ${{ github.ref_name }}"
           echo "GITHUB_EVENT_NAME: ${{ github.event_name }}"
-          if: ${{ github.event_name == 'push' }}
           echo "COMMIT_MESSAGES: ${{ join(github.event.commits.*.message, ', ') }}"
-          if: ${{ github.event_name == 'pull_request' }}
+      - name: debug pr event
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          echo "EVENT_NAME: ${{ github.event_name }}"
+          echo "PUSH BOOLEAN: ${{ env.PUSH }}"
+          echo "PUSH BOOLEAN another way: ${{ github.event_name == 'PUSH' }}"
+          echo "SKIP BOOLEAN: ${{ env.SKIP }}"
+          echo "GITHUB_REF: ${{ github.ref }}"
+          echo "GITHUB_HEAD_REF: ${{ github.head_ref }}"
+          echo "GITHUB_BASE_REF: ${{ github.base_ref }}"
+          echo "GITHUB_REF_NAME: ${{ github.ref_name }}"
+          echo "GITHUB_EVENT_NAME: ${{ github.event_name }}"
           echo "PR_TITLE: ${{ github.event.pull_request.title }}"
           echo "PR_BODY: ${{ github.event.pull_request.body }}"
       - name: deploy
