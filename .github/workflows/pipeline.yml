@@ -38,6 +38,11 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
+      - name: debug
+        run: |
+          echo "PUSH: ${{ env.PUSH }}"
+          echo "SKIP: ${{ env.SKIP }}"
+          echo "MSG: ${{ join(github.event.commits.*.message, ' ') }}"
       - name: deploy
         if: ${{ env.PUSH && !env.SKIP }}
         run: |
