@@ -44,22 +44,17 @@ jobs:
         run: |
           echo "EVENT_NAME: ${{ github.event_name }}"
           echo "PUSH BOOLEAN: ${{ env.PUSH }}"
+          echo "PUSH BOOLEAN another way: ${{ github.event_name == 'PUSH' }}"
           echo "SKIP BOOLEAN: ${{ env.SKIP }}"
           echo "GITHUB_REF: ${{ github.ref }}"
           echo "GITHUB_HEAD_REF: ${{ github.head_ref }}"
           echo "GITHUB_BASE_REF: ${{ github.base_ref }}"
           echo "GITHUB_REF_NAME: ${{ github.ref_name }}"
           echo "GITHUB_EVENT_NAME: ${{ github.event_name }}"
-          echo "HEAD_COMMITS:"
-          echo "${{ toJson(github.event.head_commits) }}"
-          echo "COMMITS:"
-          echo "${{ toJson(github.event.commits) }}"
           echo "COMMIT_MESSAGES:"
           echo "${{ toJson(github.event.commits.*.message) }}"
-          echo "FULL GITHUB CONTEXT:"
-          echo "${{ toJson(github) }}"
       - name: deploy
-        if: ${{ github.event.name == 'PUSH' && !env.SKIP }}
+        if: ${{ github.event_name == 'PUSH' && !env.SKIP }}
         run: |
           echo "Deploying.."
           curl "https://api.render.com/deploy/srv-${{secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}"
