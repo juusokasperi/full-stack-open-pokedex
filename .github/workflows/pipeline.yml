@@ -58,6 +58,7 @@ jobs:
           echo "${{ toJson(github) }}"
         if: ${{ github.event.name == 'PUSH' && !env.SKIP }}
         run: |
+          echo "Deploying.."
           curl "https://api.render.com/deploy/srv-${{secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}"
   tag_release:
     if: ${{ github.event.name == 'PUSH' && !github.env.SKIP }}
