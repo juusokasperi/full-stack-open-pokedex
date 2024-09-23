@@ -40,7 +40,7 @@ jobs:
       - name: debug
         run: |
           echo "EVENT_NAME: ${{ github.event_name }}"
-          echo "PUSH BOOLEAN: ${{ github.event_name == 'PUSH' }}"
+          echo "PUSH BOOLEAN: ${{ github.event_name == 'push' }}"
           echo "SKIP BOOLEAN: ${{ env.SKIP }}"
           echo "GITHUB_REF: ${{ github.ref }}"
           echo "GITHUB_HEAD_REF: ${{ github.head_ref }}"
@@ -49,12 +49,12 @@ jobs:
           echo "GITHUB_EVENT_NAME: ${{ github.event_name }}"
           echo "COMMIT_MESSAGES: ${{ join(github.event.commits.*.message, ', ') }}"
       - name: deploy
-        if: ${{ github.event_name == 'PUSH' && !env.SKIP }}
+        if: ${{ github.event_name == 'push' && !env.SKIP }}
         run: |
           echo "Deploying.."
           curl "https://api.render.com/deploy/srv-${{secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}"
   tag_release:
-    if: ${{ github.event_name == 'PUSH' && !github.env.SKIP }}
+    if: ${{ github.event_name == 'push' && !github.env.SKIP }}
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
     steps:
