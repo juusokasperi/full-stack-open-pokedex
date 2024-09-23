@@ -55,7 +55,7 @@ jobs:
           echo "COMMITS:"
           echo "${{ toJson(github.event.commits) }}"
           echo "COMMIT_MESSAGES:"
-          echo "${{ toJson(github.event.commits.*.message)"
+          echo "${{ toJson(github.event.commits.*.message) }}"
           echo "FULL GITHUB CONTEXT:"
           echo "${{ toJson(github) }}"
       - name: deploy
