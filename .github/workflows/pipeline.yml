@@ -3,6 +3,7 @@ name: Deployment pipeline
 env:
   PUSH: ${{ github.event.name == 'push' }}
   SKIP: ${{ contains(join(github.event.commits.*.message, ' '), '#skip') }}
+  NO_PLAYWRIGHT: ${{ contains(join(github.event.commits.*.message, ' '), '#no-e2e') }}
 
 on:
   push:
@@ -29,6 +30,7 @@ jobs:
       - name: jest
         run: npm test
       - name: playwright
+        if: ${{ !env.NO_PLAYWRIGHT }}
         run: |
           npx playwright install --with-deps
           npm run test:e2e
@@ -40,7 +42,7 @@ jobs:
           retention-days: 30
       - name: debug
         run: |
-          echo "PUSH: ${{ env.PUSH }}"
+          echo "PUSH: ${{ github.event_name }}"
           echo "SKIP: ${{ env.SKIP }}"
           echo "MSG: ${{ join(github.event.commits.*.message, ' ') }}"
       - name: deploy
