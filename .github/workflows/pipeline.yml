@@ -85,8 +85,8 @@ jobs:
         if: ${{ failure() }}
         uses: stegzilla/discord-notify@v4
         with:
-            title: Build failed
-            color: 'red'
-            message: |
-              ${{ github.event.head_commit.url }} by ${{ github.event.head_commit.author.username }} broke the build
-            webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+          title: Build failed
+          color: 'red'
+          message: |
+            ${{ github.event.head_commit.url }} by ${{ github.event.head_commit.author.username }} broke the build
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
