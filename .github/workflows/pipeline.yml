@@ -73,13 +73,13 @@ jobs:
           curl "https://api.render.com/deploy/srv-${{secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}"
 
       - name: Success
-          if: ${{ success() }}
-          uses: stegzilla/discord-notify@v4
-          with:
-            title: A new version of Pokedex deployed
-            color: 'green'
-            message: to ${{ env.RENDER_URL }} by ${{ github.repository_owner }}
-            webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
+        if: ${{ success() }}
+        uses: stegzilla/discord-notify@v4
+        with:
+          title: A new version of Pokedex deployed
+          color: 'green'
+          message: to ${{ env.RENDER_URL }} by ${{ github.repository_owner }}
+          webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
 
       - name: Failure
         if: ${{ failure() }}
