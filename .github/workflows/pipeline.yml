@@ -37,19 +37,8 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 30
-      - name: debug
-        run: |
-          echo "EVENT_NAME: ${{ github.event_name }}"
-          echo "PUSH BOOLEAN: ${{ github.event_name == 'push' }}"
-          echo "SKIP BOOLEAN: ${{ env.SKIP }}"
-          echo "GITHUB_REF: ${{ github.ref }}"
-          echo "GITHUB_HEAD_REF: ${{ github.head_ref }}"
-          echo "GITHUB_BASE_REF: ${{ github.base_ref }}"
-          echo "GITHUB_REF_NAME: ${{ github.ref_name }}"
-          echo "GITHUB_EVENT_NAME: ${{ github.event_name }}"
-          echo "COMMIT_MESSAGES: ${{ join(github.event.commits.*.message, ', ') }}"
       - name: deploy
-        if: ${{ github.event_name == 'push' && !env.SKIP }}
+        if: ${{ github.event_name == 'push' && !github.env.SKIP }}
         run: |
           echo "Deploying.."
           curl "https://api.render.com/deploy/srv-${{secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}"
