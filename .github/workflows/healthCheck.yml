@@ -1,14 +1,11 @@
 name: Pokedex Health Check
 
 env:
-  RENDER_URL: https://full-stack-open-pokedex-9v5d.onrenderi.com/
+  RENDER_URL: https://full-stack-open-pokedex-9v5d.onrender.com/
 
 on:
   schedule:
-    - cron: '35 13 * * 2'
-  push:
-    branches:
-      - main
+    - cron: '35 13 1,15 * *'
 
 jobs:
   health_check:

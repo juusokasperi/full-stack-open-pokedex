@@ -55,7 +55,7 @@ jobs:
       - name: Deploy
         run: |
           echo "Deploying.."
-          curl "https://apsi.render.com/deploy/srv-${{secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}"
+          curl "https://api.render.com/deploy/srv-${{secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}"
 
       - name: Success
         if: ${{ success() }}
