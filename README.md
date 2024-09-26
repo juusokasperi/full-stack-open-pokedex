@@ -1,6 +1,6 @@
 # Full Stack (part 11) open CI/CD
 
-The repository for Bloglist is at [https://github.com/juusokasperi/part11-bloglist] (https://github.com/juusokasperi/part11-bloglist)
+The repository for Bloglist is at https://github.com/juusokasperi/part11-bloglist
 
 Repository 1/2 for FullStackOpen part 11.
 
